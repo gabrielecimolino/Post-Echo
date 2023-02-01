@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections.Generic;
-using Echo.Interface;
 using Echo.Utility;
 
 namespace Echo.Visualization
@@ -36,11 +35,11 @@ namespace Echo.Visualization
                 foreach (KeyValuePair<string, string> trackInfo in objParse.m_trackData)
                 {
                     // Add the track by name and get the interface reference from it
-                    string trackNamespace = "Echo.VisTrack";
+                    /*string trackNamespace = "Echo.VisTrack";
                     string trackName = "VisTrack_" + trackInfo.Key;
                     string fullTrackName = trackNamespace + "." + trackName;
-                    Type trackType = Utility_Functions.GetTypeFromString(fullTrackName);
-                    IVisualizable trackComp = visObj.AddComponent(trackType) as IVisualizable;
+                    Type trackType = Utility_Functions.GetTypeFromString(fullTrackName);*/
+                    VisTrack.VisTrack trackComp = visObj.AddVisTrack(trackInfo.Key);
 
                     // If it failed to add properly, return false
                     if (trackComp == null)

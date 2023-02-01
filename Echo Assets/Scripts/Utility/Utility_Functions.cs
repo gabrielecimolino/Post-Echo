@@ -1,9 +1,60 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System;
 using System.IO;
 
 namespace Echo.Utility
 {
+
+    public static class StaticUtilities
+    {
+        public static RecTrack.RecTrack AddRecTrack(this GameObject go, string name)
+        {
+            return go.AddTrack<RecTrack.RecTrack>(name, "RecTrack");
+        }
+        
+        public static VisTrack.VisTrack AddVisTrack(this GameObject go, string name)
+        {
+            return go.AddTrack<VisTrack.VisTrack>(name, "VisTrack");
+        }
+
+        static T AddTrack<T>(this GameObject go, string name, string nameSpace) where T : Track.Track
+        {
+            string trackNamespace = "Echo." + nameSpace;
+            string trackName = name + nameSpace;
+            string fullTrackName = trackNamespace + "." + trackName;
+            Type trackType = Utility_Functions.GetTypeFromString(fullTrackName);
+            if (trackType == null) return null;
+            return go.AddComponent(trackType) as T;
+        }
+        
+        // Based on https://answers.unity.com/questions/1347203/a-smarter-way-to-get-the-type-of-serializedpropert.html
+        public static Type SerializedType(this SerializedProperty property)
+        {
+            Type parentType = property.serializedObject.targetObject.GetType();
+            Debug.Log(parentType);
+            System.Reflection.FieldInfo fi = parentType.GetFieldViaPath(property.propertyPath);
+            return (fi != null) ? fi.FieldType : null;
+        }
+        
+        public static System.Reflection.FieldInfo GetFieldViaPath(this Type type,string path)
+        {
+            System.Reflection.FieldInfo fi = type.GetField(path);
+            string[] perDot = path.Split('.');
+            foreach (string fieldName in perDot)
+            {
+                fi = type.GetField(fieldName);
+                if (fi != null)
+                    type = fi.FieldType;
+                else
+                    return null;
+            }
+            if (fi != null)
+                return fi;
+            else return null;
+        }
+    }
+    
     public class Utility_Functions : MonoBehaviour
     {
         //--- Methods ---//

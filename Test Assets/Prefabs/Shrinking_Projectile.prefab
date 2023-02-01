@@ -11,6 +11,11 @@ GameObject:
   - component: {fileID: 942113321156413020}
   - component: {fileID: 8967266915358231361}
   - component: {fileID: 247756598607708498}
+  - component: {fileID: 5654587579203555434}
+  - component: {fileID: 8329607557215054994}
+  - component: {fileID: 6731951080488905995}
+  - component: {fileID: 3123295226737170288}
+  - component: {fileID: 5660288488762294219}
   m_Layer: 0
   m_Name: Torus_Custom
   m_TagString: Untagged
@@ -28,6 +33,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5371148859170544397}
   m_RootOrder: 0
@@ -51,10 +57,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,6 +87,106 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5654587579203555434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2657890581907268019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18cc28b55405aff468ca545170f76787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_trackComponents:
+  - {fileID: 8329607557215054994}
+  - {fileID: 6731951080488905995}
+  - {fileID: 3123295226737170288}
+  - {fileID: 5660288488762294219}
+  m_isStatic: 0
+  m_isKeyFocusObj: 0
+--- !u!114 &8329607557215054994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2657890581907268019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea5113de0724b5db01d0f4aaf346dbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_recordingSettings:
+    m_recordingMethod: 0
+    m_dataFormat: F3
+    m_changeMinThreshold: 0.1
+    m_changeJumpThreshold: 1
+    m_sampleTime: 0.25
+    m_nextSampleTime: 0
+  m_target: {fileID: 2657890581907268019}
+--- !u!114 &6731951080488905995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2657890581907268019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b0d4537d2724253898ff6d11c26bb50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_recordingSettings:
+    m_recordingMethod: 0
+    m_dataFormat: F3
+    m_changeMinThreshold: 0.1
+    m_changeJumpThreshold: 1
+    m_sampleTime: 0.25
+    m_nextSampleTime: 0
+  m_target: {fileID: 942113321156413020}
+--- !u!114 &3123295226737170288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2657890581907268019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0479f9c421e646088fdbb008b5a54919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_recordingSettings:
+    m_recordingMethod: 0
+    m_dataFormat: F3
+    m_changeMinThreshold: 0.1
+    m_changeJumpThreshold: 1
+    m_sampleTime: 0.25
+    m_nextSampleTime: 0
+  m_target: {fileID: 8967266915358231361}
+--- !u!114 &5660288488762294219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2657890581907268019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cd238dfb002446f84bcb1bb64dc513c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_recordingSettings:
+    m_recordingMethod: 0
+    m_dataFormat: F3
+    m_changeMinThreshold: 0.1
+    m_changeJumpThreshold: 1
+    m_sampleTime: 0.25
+    m_nextSampleTime: 0
+  m_target: {fileID: 247756598607708498}
 --- !u!1 &8994109254827518238
 GameObject:
   m_ObjectHideFlags: 0
@@ -91,10 +199,8 @@ GameObject:
   - component: {fileID: 3640344810908527278}
   - component: {fileID: 850989935686539835}
   - component: {fileID: -8797040425160971561}
-  - component: {fileID: 2663772595380629315}
-  - component: {fileID: -8291401696096625034}
-  - component: {fileID: -1094649880363877157}
-  - component: {fileID: 7870490125974321639}
+  - component: {fileID: 8108307278877950290}
+  - component: {fileID: 7308337186904239409}
   m_Layer: 0
   m_Name: Shrinking_Projectile
   m_TagString: Untagged
@@ -112,6 +218,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 942113321156413020}
   m_Father: {fileID: 0}
@@ -156,12 +263,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_trackComponents:
-  - {fileID: 2663772595380629315}
-  - {fileID: -8291401696096625034}
-  - {fileID: -1094649880363877157}
-  - {fileID: 7870490125974321639}
+  - {fileID: 8108307278877950290}
+  - {fileID: 0}
+  - {fileID: 7308337186904239409}
   m_isStatic: 0
---- !u!114 &2663772595380629315
+  m_isKeyFocusObj: 0
+--- !u!114 &8108307278877950290
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -170,52 +277,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 8994109254827518238}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46b763404db3a864fbbfa13d18f09728, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ea5113de0724b5db01d0f4aaf346dbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_recordingSettings:
+    m_recordingMethod: 0
+    m_dataFormat: F3
+    m_changeMinThreshold: 0.1
+    m_changeJumpThreshold: 1
+    m_sampleTime: 0.25
+    m_nextSampleTime: 0
+  m_target: {fileID: 8994109254827518238}
+--- !u!114 &7308337186904239409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8994109254827518238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b0d4537d2724253898ff6d11c26bb50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_recordingSettings:
+    m_recordingMethod: 0
+    m_dataFormat: F3
+    m_changeMinThreshold: 0.1
+    m_changeJumpThreshold: 1
+    m_sampleTime: 0.25
+    m_nextSampleTime: 0
   m_target: {fileID: 5371148859170544397}
-  m_dataFormat: F3
-  m_sampleTime: 0.25
---- !u!114 &-8291401696096625034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8994109254827518238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eae1b5f909a6bcb4697cb1650bc27597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_target: {fileID: 5371148859170544397}
-  m_dataFormat: F3
-  m_sampleTime: 0.25
---- !u!114 &-1094649880363877157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8994109254827518238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3ba4e00a60e8934994f530763a4eb15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_targetRenderer: {fileID: 247756598607708498}
-  m_targetFilter: {fileID: 8967266915358231361}
-  m_dataFormat: F3
---- !u!114 &7870490125974321639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8994109254827518238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b537bd0ce940b924ca9b878304ce8a28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_dataFormat: F3

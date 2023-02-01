@@ -1,27 +1,23 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
-using Echo.Interface;
+using Echo.Utility;
 
 namespace Echo.Recording
 {
     public class Recording_Object : MonoBehaviour
     {
         //--- Public Variables ---//
-        public List<MonoBehaviour> m_trackComponents;
+        public List<RecTrack.RecTrack> m_trackComponents;
         public bool m_isStatic;
         public bool m_isKeyFocusObj; // If this is true, the vis will allow for easy focus on this object
 
-
-
         //--- Private Variables ---//
         private Recording_Manager m_recManager;
-        private List<IRecordable> m_trackInterfaces;
         private string m_gameObjectName;
         private string m_uniqueID;
-
-
-
+        
         //--- Unity Methods ---//
         private void Awake()
         {
@@ -50,8 +46,6 @@ namespace Echo.Recording
             UnregisterObject();
         }
 
-
-
         //--- Messages TO The Recording Manager ---//
         public void RegisterObject()
         {
@@ -68,8 +62,6 @@ namespace Echo.Recording
             m_recManager.MarkObjectDoneRecording(this);
         }
 
-
-
         //--- Messages FROM The Recording Manager ---//
         public void SetupObject()
         {
@@ -80,21 +72,21 @@ namespace Echo.Recording
         public void StartRecording(float _startTime)
         {
             // Loop through all of the tracks and tell them to start recording
-            foreach (IRecordable track in m_trackInterfaces)
+            foreach (RecTrack.RecTrack track in m_trackComponents)
                 track.StartRecording(_startTime);
         }
 
         public void UpdateRecording(float _currentTime)
         {
             // Loop through all of the tracks and tell them to update
-            foreach (IRecordable track in m_trackInterfaces)
+            foreach (RecTrack.RecTrack track in m_trackComponents)
                 track.UpdateRecording(_currentTime);
         }
 
         public void EndRecording(float _endTime)
         {
             // Loop through all of the tracks and tell them to finish recording
-            foreach (IRecordable track in m_trackInterfaces)
+            foreach (RecTrack.RecTrack track in m_trackComponents)
                 track.EndRecording(_endTime);
 
             // Unregister the object from the recording manager now
@@ -110,7 +102,7 @@ namespace Echo.Recording
             builder.AppendLine("OBJ_START~" + this.m_gameObjectName + this.m_uniqueID + "~" + this.m_isKeyFocusObj.ToString());
 
             // Add all of the string data from the tracks together into one set of data
-            foreach (IRecordable track in m_trackInterfaces)
+            foreach (RecTrack.RecTrack track in m_trackComponents)
             {
                 // First, add the track header information
                 builder.AppendLine("\tTRK_START~" + track.GetTrackName());
@@ -129,41 +121,13 @@ namespace Echo.Recording
             return builder.ToString();
         }
 
-
-
         //--- Default Setup Methods ---//
         public void SetupDefaultStatic()
         {
             // Set this object to be static
-            this.m_isStatic = true;
+            m_isStatic = true;
 
-            // Remove any tracks currently on this object
-            Component[] allComps = this.gameObject.GetComponents<Component>();
-            foreach(Component comp in allComps)
-            {
-                // If the component is a recording track, it should be removed
-                if (comp as IRecordable != null)
-                {
-                    DestroyImmediate(comp);
-                }
-            }
-
-            // Re-init the list
-            m_trackComponents = new List<MonoBehaviour>();
-
-            // Add the tracks that are most commonly used for a static renderable object
-            this.m_trackComponents.Add(this.gameObject.AddComponent<RecTrack.RecTrack_Position>());
-            this.m_trackComponents.Add(this.gameObject.AddComponent<RecTrack.RecTrack_Rotation>());
-            this.m_trackComponents.Add(this.gameObject.AddComponent<RecTrack.RecTrack_Scale>());
-            this.m_trackComponents.Add(this.gameObject.AddComponent<RecTrack.RecTrack_Renderables>());
-
-            // Loop through all of the tracks and trigger their default setup
-            foreach(MonoBehaviour trackComp in m_trackComponents)
-            {
-                // Convert the track component to the interface type and then tell it to get setup
-                IRecordable trackInterface = trackComp as IRecordable;
-                trackInterface.SetupDefault();
-            }
+            SetupDefault();
         }
 
         public void SetupDefaultDynamic()
@@ -171,37 +135,34 @@ namespace Echo.Recording
             // Set this object to be dynamic
             this.m_isStatic = false;
 
-            // Remove any tracks currently on this object
-            Component[] allComps = this.gameObject.GetComponents<Component>();
-            foreach (Component comp in allComps)
-            {
-                // If the component is a recording track, it should be removed
-                if (comp as IRecordable != null)
-                {
-                    DestroyImmediate(comp);
-                }
-            }
-
-            // Re-init the list
-            m_trackComponents = new List<MonoBehaviour>();
-
-            // Add the tracks that are most commonly used for a static renderable object
-            this.m_trackComponents.Add(this.gameObject.AddComponent<RecTrack.RecTrack_Position>());
-            this.m_trackComponents.Add(this.gameObject.AddComponent<RecTrack.RecTrack_Rotation>());
-            this.m_trackComponents.Add(this.gameObject.AddComponent<RecTrack.RecTrack_Scale>());
-            this.m_trackComponents.Add(this.gameObject.AddComponent<RecTrack.RecTrack_Renderables>());
-            this.m_trackComponents.Add(this.gameObject.AddComponent<RecTrack.RecTrack_Lifetime>());
-
-            // Loop through all of the tracks and trigger their default setup
-            foreach (MonoBehaviour trackComp in m_trackComponents)
-            {
-                // Convert the track component to the interface type and then tell it to get setup
-                IRecordable trackInterface = trackComp as IRecordable;
-                trackInterface.SetupDefault();
-            }
+            SetupDefault();
         }
 
+        void SetupDefault()
+        {
+            // Remove any tracks currently on this object
+            foreach(RecTrack.RecTrack track in AllTracks()) DestroyImmediate(track);
 
+            // Re-init the list
+            m_trackComponents = new List<RecTrack.RecTrack>();
+
+            // Every GameObject has an active track
+            RecTrack.RecTrack activeTrack = gameObject.AddRecTrack("Active");
+            activeTrack.SetupDefault();
+            m_trackComponents.Add(activeTrack);
+
+            // Create a RecTrack for each recordable Component on the GameObject
+            foreach (Component comp in gameObject.GetComponents<Component>())
+            {
+                string typeName = comp.GetType().ToString().Split('.')[^1];
+                RecTrack.RecTrack track = comp.gameObject.AddRecTrack(typeName);
+                if (track)
+                {
+                    track.SetupDefault();
+                    m_trackComponents.Add(track);
+                }
+            }
+        }
 
         //--- Setters ---//
         public void SetUniqueID(string _uniqueID)
@@ -210,8 +171,6 @@ namespace Echo.Recording
             this.m_uniqueID = _uniqueID;
         }
 
-
-
         //--- Getters ---//
         public string GetUniqueID()
         {
@@ -219,30 +178,15 @@ namespace Echo.Recording
             return this.m_uniqueID;
         }
 
-
-
         //--- Utility Functions ---//
         private void ConvertTrackComps()
         {
-            // Start by setting up the interface list object
-            m_trackInterfaces = new List<IRecordable>();
+            m_trackComponents = AllTracks();
+        }
 
-            // Try to convert all of the components over to the interfaces
-            foreach (MonoBehaviour trackComp in m_trackComponents)
-            {
-                // Convert the component to the interface
-                IRecordable trackInterface = trackComp as IRecordable;
-
-                // Add to the list of interfaces if it worked, output an error if it didn't
-                if (trackInterface != null)
-                {
-                    m_trackInterfaces.Add(trackInterface);
-                }
-                else
-                {
-                    Debug.LogError("Error: A component in the track list is NOT actually a track");
-                }
-            }
+        List<RecTrack.RecTrack> AllTracks()
+        {
+            return gameObject.GetComponents<RecTrack.RecTrack>().ToList();
         }
     }
 }

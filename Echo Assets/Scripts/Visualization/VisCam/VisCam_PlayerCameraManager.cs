@@ -17,7 +17,7 @@ namespace Echo.Visualization.VisCam
         public void Setup()
         {
             // Find all of the player cameras in the scene by getting them from the vis tracks
-            VisTrack_Camera[] playerCams = GameObject.FindObjectsOfType<VisTrack_Camera>();
+            VisTrack.CameraVisTrack[] playerCams = GameObject.FindObjectsOfType<CameraVisTrack>();
 
             // If there are no player cameras, we can just go ahead and disable this script
             if (playerCams == null)
@@ -30,7 +30,7 @@ namespace Echo.Visualization.VisCam
             // Otherwise, we should grab the camera objects from them
             m_cameras = new List<Camera>();
             foreach (var playerCam in playerCams)
-                m_cameras.Add(playerCam.GetTargetCam());
+                m_cameras.Add(playerCam.m_target);
 
             // The current camera is the first one by default
             m_activeCamIdx = 0;
